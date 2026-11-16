@@ -1,0 +1,194 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#101a2b">
+  <meta name="description" content="Ontdek jouw geschatte vermogenspositie tussen Nederlandse huishoudens.">
+  <title>Vermogensmeter — Hoe rijk ben jij?</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="data.js" defer></script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Vermogensmeter startpagina">
+      <span class="brand-mark">V</span>
+      <span>VERMOGENSMETER</span>
+    </a>
+    <span class="topbar-note">Nederlandse huishoudens · CBS-data</span>
+  </header>
+
+  <main class="shell">
+    <section class="hero">
+      <div class="eyebrow"><span class="eyebrow-dot"></span> DE VERMOGENSVERDELING VAN NEDERLAND</div>
+      <h1>Hoe rijk ben <span>jij?</span></h1>
+      <p class="hero-copy">Vul je bezittingen en schulden in en ontdek waar jouw huishouden ongeveer staat tussen alle Nederlandse huishoudens.</p>
+      <div class="hero-stats" id="heroStats">
+        <div class="hero-stat"><strong id="householdsStat">8,3 miljoen</strong><span>huishoudens</span></div>
+        <div class="hero-stat"><strong id="medianStat">€ 169.100</strong><span>mediaan vermogen</span></div>
+        <div class="hero-stat"><strong id="millionaireStat">6,6%</strong><span>miljonairshuishoudens</span></div>
+      </div>
+    </section>
+
+    <section class="calculator card" id="calculator">
+      <div class="section-heading">
+        <div>
+          <div class="step-label">JOUW GEGEVENS</div>
+          <h2>Wat is jullie vermogen?</h2>
+          <p>Vul bedragen ongeveer in. Lege velden tellen als € 0.</p>
+        </div>
+        <div class="privacy"><span class="privacy-icon">●</span> Blijft op je apparaat</div>
+      </div>
+
+      <form id="wealthForm" novalidate>
+        <div class="form-section">
+          <div class="form-section-title"><span class="section-icon">⌂</span><div><h3>Woning</h3><p>De geschatte huidige waarde, niet de aankoopprijs.</p></div></div>
+          <div class="toggle-row">
+            <span class="toggle-question">Heb je een koopwoning?</span>
+            <div class="segmented" role="group" aria-label="Koopwoning">
+              <button type="button" class="segment active" data-home="yes" aria-pressed="true">Ja</button>
+              <button type="button" class="segment" data-home="no" aria-pressed="false">Nee</button>
+            </div>
+          </div>
+          <div class="field-grid" id="homeFields">
+            <label class="field">
+              <span>Geschatte woningwaarde</span>
+              <span class="input-wrap"><span>€</span><input id="homeValue" type="number" min="0" step="1000" inputmode="numeric" placeholder="400000"></span>
+              <small>Wat zou je woning nu ongeveer opleveren?</small>
+            </label>
+            <label class="field">
+              <span>Openstaande hypotheek</span>
+              <span class="input-wrap"><span>€</span><input id="mortgage" type="number" min="0" step="1000" inputmode="numeric" placeholder="250000"></span>
+              <small>Het bedrag dat je nog moet terugbetalen.</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title"><span class="section-icon">▤</span><div><h3>Spaargeld</h3><p>Betaalrekeningen, spaarrekeningen en deposito's.</p></div></div>
+          <label class="field">
+            <span>Hoeveel spaargeld hebben jullie ongeveer?</span>
+            <span class="input-wrap"><span>€</span><input id="savings" type="number" min="0" step="100" inputmode="numeric" placeholder="15000"></span>
+          </label>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title"><span class="section-icon">↗</span><div><h3>Beleggingen en overige financiële bezittingen</h3><p>Aandelen, ETF's, obligaties en vergelijkbare bezittingen.</p></div></div>
+          <label class="field">
+            <span>Totale waarde van beleggingen</span>
+            <span class="input-wrap"><span>€</span><input id="investments" type="number" min="0" step="100" inputmode="numeric" placeholder="5000"></span>
+          </label>
+          <label class="field">
+            <span>Overige bezittingen die meetellen bij CBS</span>
+            <span class="input-wrap"><span>€</span><input id="otherAssets" type="number" min="0" step="1000" inputmode="numeric" placeholder="0"></span>
+            <small>Bijvoorbeeld een tweede woning, beleggingspand of ondernemingsvermogen. Tel hier geen auto of gewone huisraad mee.</small>
+          </label>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title"><span class="section-icon">▰</span><div><h3>Auto en overige spullen</h3><p>Voor je eigen overzicht; deze tellen niet mee in de CBS-vergelijking.</p></div></div>
+          <div class="field-grid">
+            <label class="field">
+              <span>Waarde auto('s)</span>
+              <span class="input-wrap"><span>€</span><input id="cars" type="number" min="0" step="500" inputmode="numeric" placeholder="8000"></span>
+            </label>
+            <label class="field">
+              <span>Overige spullen</span>
+              <span class="input-wrap"><span>€</span><input id="personalItems" type="number" min="0" step="100" inputmode="numeric" placeholder="1000"></span>
+              <small>Bijvoorbeeld elektronica, meubels of andere persoonlijke bezittingen.</small>
+            </label>
+          </div>
+        </div>
+
+        <div class="form-section">
+          <div class="form-section-title"><span class="section-icon">−</span><div><h3>Schulden</h3><p>Vul schulden exclusief de hypotheek hierboven in.</p></div></div>
+          <label class="field">
+            <span>Studieschuld, leningen en overige schulden</span>
+            <span class="input-wrap"><span>€</span><input id="debts" type="number" min="0" step="100" inputmode="numeric" placeholder="0"></span>
+          </label>
+        </div>
+
+        <div class="live-total">
+          <div><span class="live-label">JOUW NETTOVERMOGEN (ALLE INVOER)</span><strong id="liveTotal">€ 0</strong></div>
+          <span class="live-caption">Bezittingen min schulden</span>
+        </div>
+        <p class="form-error" id="formError" role="alert" hidden>Vul alleen bedragen van € 0 of hoger in.</p>
+        <button class="primary-button" type="submit">BEKIJK MIJN POSITIE <span aria-hidden="true">→</span></button>
+        <p class="form-footnote">Je gegevens worden niet verstuurd of opgeslagen. De berekening gebeurt volledig in je browser.</p>
+      </form>
+    </section>
+
+    <section class="results" id="results" hidden>
+      <div class="results-topline">
+        <div><div class="step-label">JOUW UITKOMST</div><h2>Dit is jouw vermogenspositie</h2></div>
+        <button class="text-button" id="editButton" type="button">← Gegevens aanpassen</button>
+      </div>
+      <div class="rank-card card">
+        <div class="rank-copy">
+          <span class="rank-kicker">GESCHATTE POSITIE IN NEDERLAND</span>
+          <div class="rank-number" id="rankNumber">#123.400</div>
+          <div class="rank-of">van <strong id="rankTotal">8.318.600</strong> Nederlandse huishoudens</div>
+          <p class="rank-percentile" id="rankPercentile">Je hebt naar schatting meer vermogen dan 98,5% van de huishoudens.</p>
+        </div>
+        <div class="rank-visual" aria-hidden="true">
+          <div class="ring"><div class="ring-inner"><span>TOP</span><strong id="topPercent">1,5%</strong></div></div>
+          <span class="ring-caption">van Nederland</span>
+        </div>
+      </div>
+
+      <div class="result-grid">
+        <article class="metric-card card"><span>Nettovermogen volgens invoer</span><strong id="resultNet">€ 0</strong><small>Inclusief auto en overige spullen</small></article>
+        <article class="metric-card card"><span>Vermogen voor CBS-vergelijking</span><strong id="resultComparable">€ 0</strong><small>Exclusief auto en gewone huisraad</small></article>
+        <article class="metric-card card"><span>Huishoudens met meer vermogen</span><strong id="resultAbove">0</strong><small>Geschat aantal huishoudens</small></article>
+      </div>
+
+      <div class="detail-grid">
+        <article class="card chart-card">
+          <div class="card-heading"><div><div class="step-label">VERMOGENSVERDELING</div><h3>Waar sta je?</h3></div></div>
+          <div class="percentile-track"><div class="track-fill" id="percentileFill"></div><div class="track-marker" id="percentileMarker"></div></div>
+          <div class="track-labels"><span>0%</span><span>50%</span><span>100%</span></div>
+          <p class="chart-explanation" id="percentileExplanation">Je positie wordt geschat op basis van CBS-percentielen.</p>
+          <div class="benchmark-list" id="benchmarkList"></div>
+        </article>
+        <article class="card chart-card">
+          <div class="card-heading"><div><div class="step-label">JOUW BEZITTINGEN</div><h3>Opbouw van je vermogen</h3></div></div>
+          <div class="donut-wrap"><canvas id="assetsChart" aria-label="Grafiek van de opbouw van je vermogen"></canvas></div>
+          <div class="legend" id="chartLegend"></div>
+        </article>
+      </div>
+
+      <div class="method-card card">
+        <div class="method-icon">i</div>
+        <div><h3>Hoe nauwkeurig is deze uitslag?</h3><p id="methodText">Dit is een schatting op basis van CBS-gegevens. CBS publiceert geen persoonlijke ranglijst. Binnen vermogensklassen wordt gerekend met een benadering; bij de hoogste vermogens is de onzekerheid groter.</p></div>
+      </div>
+      <div class="source-line" id="sourceLine"></div>
+      <div class="result-actions">
+        <button class="secondary-button" id="printButton" type="button">Print / opslaan als PDF</button>
+        <button class="secondary-button" id="resetButton" type="button">Alles wissen</button>
+      </div>
+    </section>
+
+    <section class="about card">
+      <div class="step-label">OVER DE BEREKENING</div>
+      <h2>Een schatting, geen officiële ranglijst</h2>
+      <p>De vermogensmeter vergelijkt een huishouden met de vermogensverdeling van Nederlandse particuliere huishoudens. De onderliggende cijfers komen van het CBS. Omdat het CBS geen rangnummer per individueel huishouden publiceert, wordt jouw positie benaderd met vermogensklassen en percentielen.</p>
+      <p>De vergelijking gaat over huishoudens, niet over losse personen. Pensioenopbouw telt niet mee. Een auto en gewone spullen voor eigen gebruik tellen ook niet mee in de CBS-definitie; ze worden daarom wel in je eigen totaal getoond, maar niet gebruikt voor je rangschikking.</p>
+      <div class="source-links">
+        <a href="https://www.cbs.nl/nl-nl/cijfers/detail/83834NED" target="_blank" rel="noopener">CBS: vermogensbestanddelen ↗</a>
+        <a href="https://www.cbs.nl/nl-nl/cijfers/detail/83835NED" target="_blank" rel="noopener">CBS: vermogensklassen ↗</a>
+        <a href="https://www.cbs.nl/nl-nl/cijfers/detail/83934NED" target="_blank" rel="noopener">CBS: vermogenspercentielen ↗</a>
+      </div>
+    </section>
+
+    <footer class="footer">
+      <span>VERMOGENSMETER</span>
+      <span>Onafhankelijke indicatie op basis van openbare CBS-cijfers.</span>
+    </footer>
+  </main>
+</body>
+</html>
